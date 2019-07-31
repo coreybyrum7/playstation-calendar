@@ -51,7 +51,7 @@ $(document).ready(function () {
             var launchTime = getTime(event.launchDate.slice(11, 19));
             var title = event.title;
             var description = event.description;
-            var image = "/assets/" + event.imageFilename;
+            var image = "assets/" + event.imageFilename;
             var publisher = event.publisher;
     
             createCatalogEl(id, launchDate, launchTime, title, description, image, publisher);
