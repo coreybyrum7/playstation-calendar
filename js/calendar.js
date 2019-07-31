@@ -177,9 +177,7 @@ $(document).ready(function () {
         var inputName = $("input[name=name]").val();
         var inputDate = $("input[name=date]").val();
         var inputNotes = $("textarea[name=notes]").val();
-        var inputTag = $("select[name=tags]")
-        .find(":selected")
-        .text();
+        var inputTag = "default";
   
         dataCel.each(function() {
         if ($(this).data("day") === inputDate) {
@@ -259,6 +257,7 @@ $(document).ready(function () {
             );
             break;
         }
+        $('.c-aside__eventList').fadeIn('slow');
     };
     dataCel.on("click", function() {
         var $this = $(this);
@@ -279,7 +278,13 @@ $(document).ready(function () {
         dataCel.removeClass("isSelected");
         thisEl.addClass("isSelected");
 
-        $('.c-content-wrapper').fadeIn('fast');
+        var numEvents = $('.c-aside__eventList').children().length;
+        if (numEvents == 0) {
+            let noContentDiv = "<div id='noContentDiv'>No events</div>";
+            $('.c-aside__eventList').append(noContentDiv);
+        } else if (numEvents != 1) {
+            $('#noContentDiv').remove();
+        }
     }
     
     //function for move the months
