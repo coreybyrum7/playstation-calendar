@@ -257,7 +257,6 @@ $(document).ready(function () {
             );
             break;
         }
-        $('.c-aside__eventList').fadeIn('slow');
     };
     dataCel.on("click", function() {
         var $this = $(this);
