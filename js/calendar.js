@@ -1,85 +1,3 @@
-// fill the month table with column headings
-function day_title(day_name) {
-    document.write("<div class='c-cal__col'>" + day_name + "</div>");
-}
-// fills the month table with numbers
-function fill_table(month, month_length, indexMonth) {
-    day = 1;
-    // begin the new month table
-    document.write("<div class='c-main c-main-" + indexMonth + "'>");
-    //document.write("<b>"+month+" "+year+"</b>")
-
-    // column headings
-    document.write("<div class='c-cal__row'>");
-    day_title("Sun");
-    day_title("Mon");
-    day_title("Tue");
-    day_title("Wed");
-    day_title("Thu");
-    day_title("Fri");
-    day_title("Sat");
-    document.write("</div>");
-
-    // pad cells before first day of month
-    document.write("<div class='c-cal__row'>");
-    for (var i = 1; i < start_day; i++) {
-    if (start_day > 7) {
-    } else {
-        document.write("<div class='c-cal__cel'></div>");
-    }
-    }
-
-    // fill the first week of days
-    for (var i = start_day; i < 8; i++) {
-    document.write(
-        "<div data-day='2019-" +
-        indexMonth +
-        "-0" +
-        day +
-        "'class='c-cal__cel' tabindex='0'><p>" +
-        day +
-        "</p></div>"
-    );
-    day++;
-    }
-    document.write("</div>");
-
-    // fill the remaining weeks
-    while (day <= month_length) {
-    document.write("<div class='c-cal__row'>");
-    for (var i = 1; i <= 7 && day <= month_length; i++) {
-        if (day >= 1 && day <= 9) {
-        document.write(
-            "<div data-day='2019-" +
-            indexMonth +
-            "-0" +
-            day +
-            "'class='c-cal__cel' tabindex='0'><p>" +
-            day +
-            "</p></div>"
-        );
-        day++;
-        } else {
-        document.write(
-            "<div data-day='2019-" +
-            indexMonth +
-            "-" +
-            day +
-            "' class='c-cal__cel' tabindex='0'><p>" +
-            day +
-            "</p></div>"
-        );
-        day++;
-        }
-    }
-    document.write("</div>");
-    // the first day of the next month
-    start_day = i;
-    }
-
-    document.write("</div>");
-}
-
 $(document).ready(function () {
 
     //global variables
@@ -108,7 +26,7 @@ $(document).ready(function () {
     today = year + "-" + month + "-" + day;
     currentDay();
 
-    //set height of absolute positioned calendar
+    //set height of absolute positioned calendar on initial load. absolute div takes up no space.
     $('.c-main').each(function () {
         setCalendarHeight(this);
     });
@@ -159,7 +77,7 @@ $(document).ready(function () {
         currentDay();
     });
   
-    //event creator window
+    //event creator
     $(".js-event__add").on("click", function() {
         $(".js-event__creator").addClass("isVisible");
         $("body").addClass("overlay");
@@ -173,27 +91,38 @@ $(document).ready(function () {
         });
     });
 
+    //create event
     $(".js-event__save").on("click", function() {
         var inputName = $("input[name=name]").val();
         var inputDate = $("input[name=date]").val();
-        var inputNotes = $("textarea[name=notes]").val();
+        var inputNotes = $("textarea[name=description]").val();
         var inputTag = "default";
+        var image = "assets/default.jpg";
   
         dataCel.each(function() {
-        if ($(this).data("day") === inputDate) {
-            if (inputName != null) {
-            $(this).attr("data-name", inputName);
+            if ($(this).data("day") === inputDate) {
+                if (inputName != null) {
+                $(this).attr("data-name", inputName);
+                }
+                if (inputNotes != null) {
+                    $(this).attr("data-notes", inputNotes);
+                }
+                $(this).addClass("event");
+                if (inputTag != null) {
+                    $(this).addClass("event--" + inputTag);
+                }
+                $(this).attr('data-image', image);
+                fillEventSidebar($(this));
             }
-            if (inputNotes != null) {
-            $(this).attr("data-notes", inputNotes);
-            }
-            $(this).addClass("event");
-            if (inputTag != null) {
-            $(this).addClass("event--" + inputTag);
-            }
-            fillEventSidebar($(this));
-        }
         });
+
+        var numEvents = $('.c-aside__eventList').children().length;
+        if (numEvents == 0) {
+            let noContentDiv = "<div id='noContentDiv'>No events</div>";
+            $('.c-aside__eventList').append(noContentDiv);
+        } else if (numEvents != 1) {
+            $('#noContentDiv').remove();
+        }
   
         $(".js-event__creator").removeClass("isVisible");
         $("body").removeClass("overlay");
@@ -383,3 +312,85 @@ $(document).ready(function () {
     $(".c-aside__month").text(monthText[month - 1]);
 
 });
+
+// fill the month table with column headings
+function day_title(day_name) {
+    document.write("<div class='c-cal__col'>" + day_name + "</div>");
+}
+// fills the month table with numbers
+function fill_table(month, month_length, indexMonth) {
+    day = 1;
+    // begin the new month table
+    document.write("<div class='c-main c-main-" + indexMonth + "'>");
+    //document.write("<b>"+month+" "+year+"</b>")
+
+    // column headings
+    document.write("<div class='c-cal__row'>");
+    day_title("Sun");
+    day_title("Mon");
+    day_title("Tue");
+    day_title("Wed");
+    day_title("Thu");
+    day_title("Fri");
+    day_title("Sat");
+    document.write("</div>");
+
+    // pad cells before first day of month
+    document.write("<div class='c-cal__row'>");
+    for (var i = 1; i < start_day; i++) {
+    if (start_day > 7) {
+    } else {
+        document.write("<div class='c-cal__cel'></div>");
+    }
+    }
+
+    // fill the first week of days
+    for (var i = start_day; i < 8; i++) {
+    document.write(
+        "<div data-day='2019-" +
+        indexMonth +
+        "-0" +
+        day +
+        "'class='c-cal__cel' tabindex='0'><p>" +
+        day +
+        "</p></div>"
+    );
+    day++;
+    }
+    document.write("</div>");
+
+    // fill the remaining weeks
+    while (day <= month_length) {
+    document.write("<div class='c-cal__row'>");
+    for (var i = 1; i <= 7 && day <= month_length; i++) {
+        if (day >= 1 && day <= 9) {
+        document.write(
+            "<div data-day='2019-" +
+            indexMonth +
+            "-0" +
+            day +
+            "'class='c-cal__cel' tabindex='0'><p>" +
+            day +
+            "</p></div>"
+        );
+        day++;
+        } else {
+        document.write(
+            "<div data-day='2019-" +
+            indexMonth +
+            "-" +
+            day +
+            "' class='c-cal__cel' tabindex='0'><p>" +
+            day +
+            "</p></div>"
+        );
+        day++;
+        }
+    }
+    document.write("</div>");
+    // the first day of the next month
+    start_day = i;
+    }
+
+    document.write("</div>");
+}

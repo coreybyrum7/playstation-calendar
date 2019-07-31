@@ -29,4 +29,5 @@ Selecting an individual day, will show you the assets, and their respective info
 - Selecting an asset. I would have liked to create another module or page, that opened upon clicking on an asset in the catalog. This module or page, could have then display further information or provided action items such as purchase or begin/start.
 - Added more years. Perhaps I would have integrated a calendar API or added a year filter.
 - No month carousel. I would have liked to hide/display the months on prev/next selection, as opposed to creating the absolute positioned months like a carousel.
+- Session storage. I would have liked to actually save created events. Either in the cache or some db server.
 
