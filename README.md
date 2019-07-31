@@ -4,7 +4,7 @@ This is a web application created for a take-home assessment given by Playstatio
 
 # Running the application
 
-Please run the app by navigating to [https://coreybyrum.com/playstation-calendar/](https://coreybyrum.com/playstation-calendar/)
+Please run the app by navigating to [https://coreybyrum.com/playstation-calendar/](https://coreybyrum.com/playstation-calendar/). You may need to hit refresh.
 
 # Goal
 
