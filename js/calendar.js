@@ -5,13 +5,7 @@ $(document).ready(function () {
     var dataCel = $(".c-cal__cel");
     var dateObj = new Date();
     var month = dateObj.getUTCMonth() + 1;
-    if (month < 10) {
-        month = '0' + month;
-    }
     var day = dateObj.getUTCDate();
-    if (day < 10) {
-        day = '0' + day;
-    }
     var year = dateObj.getUTCFullYear();
     var monthText = [
     "January",
@@ -137,7 +131,11 @@ $(document).ready(function () {
 
     function currentDay() {
         $('div.c-cal__cel').removeClass('isSelected');
-        var currentDayCell = $('div[data-day = '+today+']');
+        var currentDayCell;
+        month = ('0' + month).slice(-2);
+        day = ('0' + day).slice(-2);
+
+        currentDayCell = $('div[data-day=' + year + "-" + month + "-" + day +']');
         currentDayCell.addClass('isSelected');
         newCellSelected(currentDayCell);
     }
@@ -289,19 +287,14 @@ $(document).ready(function () {
 
 
     function positionEvents(indexMonth) {
-
+        indexMonth = ('0' + indexMonth).slice(-2);
         //position todays events
-        if (indexMonth > 9) {
-            var monthText = $('.month-' + indexMonth).text().toLowerCase();
-            var calendarDiv = $('.c-main-' + indexMonth);
-        } else {
-            var monthText = $('.month-0' + indexMonth).text().toLowerCase();
-            var calendarDiv = $('.c-main-0' + indexMonth);
-        }
+        var calendarDiv = $('.c-main-' + indexMonth);
+        console.log(calendarDiv);
         //remove date until selected, set month, positionEvents.. if applicable
         $(".c-aside__num").text('');
-        monthText = monthText.charAt(0).toUpperCase() + monthText.slice(1);
-        $(".c-aside__month").text(monthText);
+        var newMonthText = monthText[indexMonth - 1];
+        $(".c-aside__month").text(newMonthText);
         setCalendarHeight(calendarDiv);
     }
 
