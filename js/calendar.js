@@ -186,9 +186,17 @@ $(document).ready(function () {
             break;
         }
     };
+
     dataCel.on("click", function() {
         var $this = $(this);
         newCellSelected($this);
+    });
+
+    dataCel.on('keypress', function(e) {
+        if (e.keyCode == '13') {
+            var $this = $(this);
+            newCellSelected($this);
+        }
     });
 
     function newCellSelected(elem) {
