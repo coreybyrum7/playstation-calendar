@@ -5,7 +5,13 @@ $(document).ready(function () {
     var dataCel = $(".c-cal__cel");
     var dateObj = new Date();
     var month = dateObj.getUTCMonth() + 1;
+    if (month < 10) {
+        month = '0' + month;
+    }
     var day = dateObj.getUTCDate();
+    if (day < 10) {
+        day = '0' + day;
+    }
     var year = dateObj.getUTCFullYear();
     var monthText = [
     "January",
@@ -131,12 +137,7 @@ $(document).ready(function () {
 
     function currentDay() {
         $('div.c-cal__cel').removeClass('isSelected');
-        var currentDayCell;
-        if (month > 9) {
-            currentDayCell = $('div[data-day = '+today+']');
-        } else {
-            currentDayCell = $('div[data-day=' + year + "-0" + month + "-" + day +']');
-        }
+        var currentDayCell = $('div[data-day = '+today+']');
         currentDayCell.addClass('isSelected');
         newCellSelected(currentDayCell);
     }
@@ -312,3 +313,85 @@ $(document).ready(function () {
     $(".c-aside__month").text(monthText[month - 1]);
 
 });
+
+
+// fill the month table with column headings
+function day_title(day_name) {
+    document.write("<div class='c-cal__col'>" + day_name + "</div>");
+}
+// fills the month table with numbers
+function fill_table(month, month_length, indexMonth) {
+    day = 1;
+    // begin the new month table
+    document.write("<div class='c-main c-main-" + indexMonth + "'>");
+    //document.write("<b>"+month+" "+year+"</b>")
+
+    // column headings
+    document.write("<div class='c-cal__row'>");
+    day_title("Sun");
+    day_title("Mon");
+    day_title("Tue");
+    day_title("Wed");
+    day_title("Thu");
+    day_title("Fri");
+    day_title("Sat");
+    document.write("</div>");
+
+    // pad cells before first day of month
+    document.write("<div class='c-cal__row'>");
+    for (var i = 1; i < start_day; i++) {
+        if (start_day > 7) {
+        } else {
+            document.write("<div class='c-cal__cel'></div>");
+        }
+    }
+
+    // fill the first week of days
+    for (var i = start_day; i < 8; i++) {
+        document.write(
+            "<div data-day='2019-" +
+            indexMonth +
+            "-0" +
+            day +
+            "'class='c-cal__cel' tabindex='0'><p>" +
+            day +
+            "</p></div>"
+        );
+        day++;
+    }
+    document.write("</div>");
+
+    // fill the remaining weeks
+    while (day <= month_length) {
+        document.write("<div class='c-cal__row'>");
+        for (var i = 1; i <= 7 && day <= month_length; i++) {
+            if (day >= 1 && day <= 9) {
+                document.write(
+                    "<div data-day='2019-" +
+                    indexMonth +
+                    "-0" +
+                    day +
+                    "'class='c-cal__cel' tabindex='0'><p>" +
+                    day +
+                    "</p></div>"
+                );
+                day++;
+            } else {
+                document.write(
+                    "<div data-day='2019-" +
+                    indexMonth +
+                    "-" +
+                    day +
+                    "' class='c-cal__cel' tabindex='0'><p>" +
+                    day +
+                    "</p></div>"
+                );
+                day++;
+            }
+        }
+        document.write("</div>");
+        // the first day of the next month
+        start_day = i;
+    }
+    document.write("</div>");
+}
